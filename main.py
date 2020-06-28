@@ -331,13 +331,16 @@ class MyCalculatorWindow(QMainWindow):
 
         elif character == '=':
             expr_eval = ExpressionEvaluator(self.typed_text)
-            answer = expr_eval.evaluate_expression()
+            fraction = expr_eval.evaluate_expression()
 
-            if answer != 'Error':
+            if fraction[0] != 'Error':
+                answer = fraction[0] / fraction[1]
                 if int(answer) == answer:
                     answer = int(answer)
                 else:
                     answer = round(answer, 12)
+            else:
+                answer = 'Error'
 
             self.typed_text = str(answer)
         else:
