@@ -109,11 +109,28 @@ class MyCalculatorWindow(QMainWindow):
 
         self.initUI()
 
-    def make_new_button(self, x, y, text, shortcut_sequence = ''):
 
+    def init_label(self):
+        self.label = QtWidgets.QLabel(self)
+        self.label.setGeometry(self.WIDTH_SPACE, self.HEIGHT_SPACE + self.MENU_HEIGHT,
+                               self.LABEL_WIDTH, self.LABEL_HEIGHT)
+        self.label.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
+
+        self.BIG_LABEL_FONT = 25
+        self.SMALL_LABEL_FONT = 15
+        self.TEXT_LIMIT = 17
+        self.label_font = self.BIG_LABEL_FONT
+        self.label.setFont(QFont('Arial', self.label_font))
+
+        self.typed_text = '0'
+        self.label.setText(self.typed_text)
+
+        self.label.setStyleSheet(self.LIGHT_MODE_LABEL)
+
+
+    def make_new_button(self, x, y, text, shortcut_sequence):
         button = QtWidgets.QPushButton(self)
-        button.setFixedSize(self.BUTTON_WIDTH, self.BUTTON_HEIGHT)
-        button.move(x, y)
+        button.setGeometry(x, y, self.BUTTON_WIDTH, self.BUTTON_HEIGHT)
         button.setText(text)
 
         self.BUTTON_FONT = 15
@@ -122,145 +139,113 @@ class MyCalculatorWindow(QMainWindow):
         shortcut = QShortcut(QKeySequence(shortcut_sequence), self)
         shortcut.activated.connect(lambda: self.add_character(text))
 
-        if self.light_mode == True:
-            style = self.LIGHT_MODE_BUTTON
-        else:
-            style = self.DARK_MODE_BUTTON
-
-        button.setStyleSheet(style)
-
-        if text in ('+', '-', '/', 'x', 'DEL') and self.light_mode == False:
-            button.setStyleSheet('background-color: rgb(254, 140, 0)')
+        button.setStyleSheet(self.LIGHT_MODE_BUTTON)
 
         return button
-
-    def init_label(self):
-        if not self.label:
-            self.label = QtWidgets.QLabel(self)
-            self.label.setGeometry(self.WIDTH_SPACE, self.HEIGHT_SPACE + self.MENU_HEIGHT,
-                                   self.LABEL_WIDTH, self.LABEL_HEIGHT)
-            self.label.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
-
-            self.BIG_LABEL_FONT = 25
-            self.SMALL_LABEL_FONT = 15
-            self.TEXT_LIMIT = 17
-            self.label_font = self.BIG_LABEL_FONT
-            self.label.setFont(QFont('Arial', self.label_font))
-
-            self.typed_text = '0'
-            self.label.setText(self.typed_text)
-
-        if self.light_mode == True:
-            style = self.LIGHT_MODE_LABEL
-        else:
-            style = self.DARK_MODE_LABEL
-
-        self.label.setStyleSheet(style)
 
 
     def init_buttons(self):
 
+        self.buttons = [[None, self.WIDTH_SPACE,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
+                         'CE', ''],
 
-        '''self.ce_button = self.make_new_button(self.WIDTH_SPACE,
-                                              2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
-                                              'CE')
+                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
+                         '(', '('],
 
-        self.open_bracket_button = self.make_new_button(2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                                                        2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
-                                                        '(', shortcut_sequence='(')
+                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
+                         ')', ')'],
 
-        self.close_bracket_button = self.make_new_button(3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                                                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
-                                                         ')', shortcut_sequence=')')
+                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
+                         'DEL', 'Backspace'],
 
-        self.delete_button = self.make_new_button(4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                                                  2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
-                                                'DEL', shortcut_sequence='Backspace')
+                        [None, self.WIDTH_SPACE,
+                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '7', '7'],
 
-        self.button7 = self.make_new_button(self.WIDTH_SPACE,
-                                            3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT
-                                            + self.MENU_HEIGHT,
-                                            '7', shortcut_sequence='7')
+                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '8', '8'],
 
-        self.button8 = self.make_new_button(2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                                            3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT
-                                            + self.MENU_HEIGHT,
-                                            '8', shortcut_sequence='8')
+                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '9', '9'],
 
-        self.button9 = self.make_new_button(3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                                            3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT
-                                            + self.MENU_HEIGHT,
-                                            '9', shortcut_sequence='9')
+                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '/', '/'],
 
-        self.divide_button = self.make_new_button(4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                                                  3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                                  self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                                  '/', shortcut_sequence='/')
+                        [None, self.WIDTH_SPACE,
+                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '4', '4'],
 
-        self.button4 = self.make_new_button(self.WIDTH_SPACE,
-                                            4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                            2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                            '4', shortcut_sequence='4')
+                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '5', '5'],
 
-        self.button5 = self.make_new_button(2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                                            4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                            2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                            '5', shortcut_sequence='5')
+                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '6', '6'],
 
-        self.button6 = self.make_new_button(3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                                            4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                            2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                            '6', shortcut_sequence='6')
+                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         'x', '*'],
 
-        self.multiply_button = self.make_new_button(4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                                                    4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                                    2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                                    'x', shortcut_sequence='*')
+                        [None, self.WIDTH_SPACE,
+                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '1', '1'],
 
-        self.button1 = self.make_new_button(self.WIDTH_SPACE,
-                                            5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                            3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                            '1', shortcut_sequence='1')
+                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '2', '2'],
 
-        self.button2 = self.make_new_button(2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                                            5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                            3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                            '2', shortcut_sequence='2')
+                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
+                         3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '3', '3'],
 
-        self.button3 = self.make_new_button(3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                                            5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                            3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                            '3', shortcut_sequence='3')
+                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '-', '-'],
 
-        self.minus_button = self.make_new_button(4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                                                 5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                                 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                                 '-', shortcut_sequence='-')
+                        [None, self.WIDTH_SPACE,
+                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '.', '.'],
 
-        self.period_button = self.make_new_button(self.WIDTH_SPACE,
-                                                  6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                                  4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                                  '.', shortcut_sequence='.')
+                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '0', '0'],
 
-        self.button0 = self.make_new_button(2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                                            6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                            4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                            '0', shortcut_sequence='0')
+                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '=', 'Return'],
 
-        self.equal_button = self.make_new_button(3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                                                 6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                                 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                                 '=', shortcut_sequence='Return')
+                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         '+', '+']
 
-        self.plus_button = self.make_new_button(4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                                                6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
-                                                4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
-                                                '+', shortcut_sequence='+')
-        '''
+                        ]
 
-        self.buttons = [[self.ce_button, 'CE', ],]
+        for index in range(len(self.buttons)):
+            self.buttons[index][0] = self.make_new_button(self.buttons[index][1], self.buttons[index][2],
+                                                          self.buttons[index][3], self.buttons[index][4])
 
         self.attach_button_functions()
+
+
+    def attach_button_functions(self):
+        '''self.buttons[0][0].clicked.connect(lambda: self.add_character(self.buttons[0][3]))
+        self.buttons[1][0].clicked.connect(lambda: self.add_character(self.buttons[1][3]))
+        self.buttons[2][0].clicked.connect(lambda: self.add_character(self.buttons[2][3]))
+        '''
+
+        for index in range(3):
+            character = self.buttons[index][3]
+            self.buttons[index][0].clicked.connect(lambda: self.add_character(character))
+
 
 
     def copy_action_function(self):
@@ -365,9 +350,6 @@ class MyCalculatorWindow(QMainWindow):
         self.label.setFont(QFont('Arial', self.label_font))
         self.label.setText(self.typed_text)
 
-
-    def attach_button_functions(self):
-        pass
 
     def initUI(self):
         self.setFixedSize(self.SCREEN_WIDTH, self.SCREEN_HEIGHT)
