@@ -1,18 +1,9 @@
 #python -m PyQt5.uic.pyuic -x [FILENAME].ui -o [FILENAME].py
 
-#style = '''
-'''QPushButton {
-    background-color: light gray
-}
-QPushButton:hover {
-    background-color: blue;
-    color: white;
-}'''
-#'''
 
 
 from PyQt5 import QtWidgets
-from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QMenuBar
+from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut
 from PyQt5 import QtCore
 from PyQt5.QtGui import QFont, QKeySequence
 import sys, clipboard
@@ -54,12 +45,22 @@ class MyCalculatorWindow(QMainWindow):
             color: black;
         }
         '''
-        self.LIGHT_MODE_MENU = '''
-        menuBar {
+        self.LIGHT_MODE_MENU_BAR = '''
+        QMenuBar {
             background-color: light gray;
             color: black;
         }
-        menuBar:hover{
+        QMenuBar::item:selected {
+            background-color: light blue;
+            color: black;
+        }
+        '''
+        self.LIGHT_MODE_MENU = '''
+        QMenu {
+            background-color: light gray;
+            color: black;
+        }
+        QMenu:selected {
             background-color: light blue;
             color: black;
         }
@@ -67,7 +68,7 @@ class MyCalculatorWindow(QMainWindow):
 
         self.DARK_MODE_LABEL = '''
         QLabel {
-            background-color: #424242;
+            background-color: rgb(66, 66, 66);
             color: white
         }
         '''
@@ -77,7 +78,7 @@ class MyCalculatorWindow(QMainWindow):
             color: white;
         }
         QPushButton:hover {
-            background-color: rgba(40, 40, 40);
+            background-color: rgb(40, 40, 40);
             color: white;
         }
         '''
@@ -91,9 +92,26 @@ class MyCalculatorWindow(QMainWindow):
             color: white;
         }
         '''
+
+        self.DARK_MODE_MENU_BAR = '''
+        QMenuBar {
+            background-color: rgb(45, 45, 45);
+            color: white;
+        }
+        QMenuBar::item:selected {
+            background-color: rgb(60, 60, 60);
+            color: white;
+        }
+        '''
         self.DARK_MODE_MENU = '''
-        background-color: #303030;
-        color: white;
+        QMenu {
+            background-color: rgb(45, 45, 45);
+            color: white;
+        }
+        QMenu:selected {
+            background-color: rgb(60, 60, 60);
+            color: white;
+        }
         '''
 
         self.light_mode = True
@@ -265,18 +283,28 @@ class MyCalculatorWindow(QMainWindow):
 
 
     def dark_mode_action_function(self):
-        self.setStyleSheet('background-color: #303030')
+        self.setStyleSheet('background-color: rgb(48, 48, 48)')
         self.light_mode = False
         self.update_label()
         self.update_buttons()
-        self.menu_bar.setStyleSheet(self.DARK_MODE_MENU)
+
+        self.menu_bar.setStyleSheet(self.DARK_MODE_MENU_BAR)
+        self.menu_file.setStyleSheet(self.DARK_MODE_MENU)
+        self.menu_edit.setStyleSheet(self.DARK_MODE_MENU)
+        self.menu_settings.setStyleSheet(self.DARK_MODE_MENU)
+
 
     def light_mode_action_function(self):
         self.setStyleSheet('background-color: light gray')
         self.light_mode = True
         self.update_label()
         self.update_buttons()
-        self.menu_bar.setStyleSheet(self.LIGHT_MODE_MENU)
+
+        self.menu_bar.setStyleSheet(self.LIGHT_MODE_MENU_BAR)
+        self.menu_file.setStyleSheet(self.LIGHT_MODE_MENU)
+        self.menu_edit.setStyleSheet(self.LIGHT_MODE_MENU)
+        self.menu_settings.setStyleSheet(self.LIGHT_MODE_MENU)
+
 
     def init_menu(self):
         self.menu_bar = self.menuBar()
