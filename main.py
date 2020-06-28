@@ -76,6 +76,20 @@ class MyCalculatorWindow(QMainWindow):
             background-color: rgb(30, 30, 30);
             color: white;
         }
+        QPushButton:hover {
+            background-color: rgba(40, 40, 40);
+            color: white;
+        }
+        '''
+        self.DARK_MODE_ORANGE_BUTTON = '''
+        QPushButton {
+            background-color: rgb(255, 140, 0);
+            color: white;
+        }
+        QPushButton:hover {
+            background-color: orange;
+            color: white;
+        }
         '''
         self.DARK_MODE_MENU = '''
         background-color: #303030;
@@ -242,16 +256,19 @@ class MyCalculatorWindow(QMainWindow):
         else:
             style = self.DARK_MODE_BUTTON
 
-        for index in  range(len(self.buttons)):
-            self.buttons[index][0].setStyleSheet(style)
+        for index in range(len(self.buttons)):
+            if self.buttons[index][3] in ('+', '-', '/', 'x', 'DEL', 'CE', '.', '(', ')', '=')\
+                    and self.light_mode == False:
+                self.buttons[index][0].setStyleSheet(self.DARK_MODE_ORANGE_BUTTON)
+            else:
+                self.buttons[index][0].setStyleSheet(style)
+
 
     def dark_mode_action_function(self):
         self.setStyleSheet('background-color: #303030')
         self.light_mode = False
         self.update_label()
         self.update_buttons()
-        self.light_mode_action.setCheckable(False)
-        self.dark_mode_action.setCheckable(True)
         self.menu_bar.setStyleSheet(self.DARK_MODE_MENU)
 
     def light_mode_action_function(self):
@@ -259,8 +276,6 @@ class MyCalculatorWindow(QMainWindow):
         self.light_mode = True
         self.update_label()
         self.update_buttons()
-        self.light_mode_action.setCheckable(True)
-        self.dark_mode_action.setCheckable(False)
         self.menu_bar.setStyleSheet(self.LIGHT_MODE_MENU)
 
     def init_menu(self):
