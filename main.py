@@ -367,27 +367,6 @@ class MyCalculatorWindow(QMainWindow):
 
 
     def attach_button_functions(self):
-        '''self.button0.clicked.connect(lambda: self.add_character('0'))
-        self.button1.clicked.connect(lambda: self.add_character('1'))
-        self.button2.clicked.connect(lambda: self.add_character('2'))
-        self.button3.clicked.connect(lambda: self.add_character('3'))
-        self.button4.clicked.connect(lambda: self.add_character('4'))
-        self.button5.clicked.connect(lambda: self.add_character('5'))
-        self.button6.clicked.connect(lambda: self.add_character('6'))
-        self.button7.clicked.connect(lambda: self.add_character('7'))
-        self.button8.clicked.connect(lambda: self.add_character('8'))
-        self.button9.clicked.connect(lambda: self.add_character('9'))
-        self.ce_button.clicked.connect(lambda: self.add_character('CE'))
-        self.delete_button.clicked.connect(lambda: self.add_character('DEL'))
-        self.equal_button.clicked.connect(lambda: self.add_character('='))
-        self.plus_button.clicked.connect(lambda: self.add_character('+'))
-        self.multiply_button.clicked.connect(lambda: self.add_character('x'))
-        self.minus_button.clicked.connect(lambda: self.add_character('-'))
-        self.divide_button.clicked.connect(lambda: self.add_character(r'/'))
-        self.period_button.clicked.connect(lambda: self.add_character('.'))
-        self.open_bracket_button.clicked.connect(lambda: self.add_character('('))
-        self.close_bracket_button.clicked.connect(lambda: self.add_character(')'))
-        '''
         pass
 
     def initUI(self):
