@@ -16,6 +16,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut, QMenuBar
 from PyQt5 import QtCore
 from PyQt5.QtGui import QFont, QKeySequence
 import sys, clipboard
+from functools import partial
 from expression_evaluator import ExpressionEvaluator
 
 class MyCalculatorWindow(QMainWindow):
@@ -77,35 +78,11 @@ class MyCalculatorWindow(QMainWindow):
         }
         '''
         self.DARK_MODE_MENU = '''
-        background-color: #424242;
+        background-color: #303030;
         color: white;
         '''
 
-
         self.light_mode = True
-
-        self.label = None
-        self.ce_button = None
-        self.open_bracket_button = None
-        self.close_bracket_button = None
-        self.delete_button = None
-        self.button7 = None
-        self.button8 = None
-        self.button9 = None
-        self.divide_button = None
-        self.button4 = None
-        self.button5 = None
-        self.button6 = None
-        self.multiply_button = None
-        self.button1 = None
-        self.button2 = None
-        self.button3 = None
-        self.minus_button = None
-        self.period_button = None
-        self.button0 = None
-        self.equal_button = None
-        self.plus_button = None
-
 
         self.initUI()
 
@@ -237,15 +214,8 @@ class MyCalculatorWindow(QMainWindow):
 
 
     def attach_button_functions(self):
-        '''self.buttons[0][0].clicked.connect(lambda: self.add_character(self.buttons[0][3]))
-        self.buttons[1][0].clicked.connect(lambda: self.add_character(self.buttons[1][3]))
-        self.buttons[2][0].clicked.connect(lambda: self.add_character(self.buttons[2][3]))
-        '''
-
-        for index in range(3):
-            character = self.buttons[index][3]
-            self.buttons[index][0].clicked.connect(lambda: self.add_character(character))
-
+        for index in range(len(self.buttons)):
+            self.buttons[index][0].clicked.connect(partial(self.add_character, self.buttons[index][3]))
 
 
     def copy_action_function(self):
@@ -259,11 +229,27 @@ class MyCalculatorWindow(QMainWindow):
     def exit_action_function(self):
         sys.exit()
 
+    def update_label(self):
+        if self.light_mode == True:
+            style = self.LIGHT_MODE_LABEL
+        else:
+            style = self.DARK_MODE_LABEL
+        self.label.setStyleSheet(style)
+
+    def update_buttons(self):
+        if self.light_mode == True:
+            style = self.LIGHT_MODE_BUTTON
+        else:
+            style = self.DARK_MODE_BUTTON
+
+        for index in  range(len(self.buttons)):
+            self.buttons[index][0].setStyleSheet(style)
+
     def dark_mode_action_function(self):
         self.setStyleSheet('background-color: #303030')
         self.light_mode = False
-        self.init_label()
-        self.init_buttons()
+        self.update_label()
+        self.update_buttons()
         self.light_mode_action.setCheckable(False)
         self.dark_mode_action.setCheckable(True)
         self.menu_bar.setStyleSheet(self.DARK_MODE_MENU)
@@ -271,8 +257,8 @@ class MyCalculatorWindow(QMainWindow):
     def light_mode_action_function(self):
         self.setStyleSheet('background-color: light gray')
         self.light_mode = True
-        self.init_label()
-        self.init_buttons()
+        self.update_label()
+        self.update_buttons()
         self.light_mode_action.setCheckable(True)
         self.dark_mode_action.setCheckable(False)
         self.menu_bar.setStyleSheet(self.LIGHT_MODE_MENU)
