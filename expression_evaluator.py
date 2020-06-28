@@ -22,19 +22,17 @@ class ExpressionEvaluator:
         self.position += 1
 
     def get_number(self):
-        answer = 0
+        answer = [0, 1]
         while self.current_character().isdigit():
-            answer = answer * 10 + int(self.current_character()) - int('0')
+            answer[0] = answer[0] * 10 + int(self.current_character()) - int('0')
             self.advance()
-
 
         if self.position < len(self.text) and self.current_character() == '.':
             self.advance()
 
-            power = 1e-1
             while self.current_character().isdigit():
-                answer += power * int(self.current_character()) - int('0')
-                power *= 1e-1
+                answer[0] = answer[0] * 10 + int(self.current_character()) - int('0')
+                answer[1] *= 10
                 self.advance()
 
         return answer
@@ -54,27 +52,33 @@ class ExpressionEvaluator:
 
         elif self.current_character() == '-':
             self.advance()
-            return -self.evaluate_factor(level)
+            answer = self.evaluate_factor(level)
+            return [-1 * answer[0], answer[1]]
 
         elif self.current_character().isdigit():
             return self.get_number()
 
         else:
             self.error()
-            return 1
+            return [1, 1]
 
     def evaluate_term(self, level):
         answer = self.evaluate_factor(level)
         while self.current_character() in ('x', '/'):
             if self.current_character() == 'x':
                 self.advance()
-                answer *= self.evaluate_factor(level)
+                current_factor = self.evaluate_factor(level)
+                answer[0] *= current_factor[0]
+                answer[1] *= current_factor[1]
             else:
                 self.advance()
+                current_factor = self.evaluate_factor(level)
 
                 try:
-                    answer /= self.evaluate_factor(level)
-                except ZeroDivisionError:
+                    assert current_factor[0] != 0
+                    answer[0] *= current_factor[1]
+                    answer[1] *= current_factor[0]
+                except AssertionError:
                     self.error()
 
         return answer
@@ -84,14 +88,18 @@ class ExpressionEvaluator:
         while self.current_character() in ('+', '-'):
             if self.current_character() == '+':
                 self.advance()
-                answer += self.evaluate_term(level)
+                current_term = self.evaluate_term(level)
+                answer[0] = answer[0] * current_term[1] + answer[1] * current_term[0]
+                answer[1] *= current_term[1]
             else:
                 self.advance()
-                answer -= self.evaluate_term(level)
+                current_term = self.evaluate_term(level)
+                answer[0] = answer[0] * current_term[1] - current_term[0] * answer[1]
+                answer[1] *= current_term[1]
 
         if level == 0 and self.error_flag == True:
-            answer = 'Error'
+            answer = ['Error', 'Error']
         if level == 0 and self.position < len(self.text):
-            answer = 'Error'
+            answer = ['Error', 'Error']
 
         return answer
