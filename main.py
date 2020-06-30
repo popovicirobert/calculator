@@ -15,14 +15,14 @@ class MyCalculatorWindow(QMainWindow):
     def __init__(self):
         super(MyCalculatorWindow, self).__init__()
 
-        self.SCREEN_WIDTH = 520
-        self.SCREEN_HEIGHT = 590
+        self.SCREEN_WIDTH = 600
+        self.SCREEN_HEIGHT = 900
 
-        self.LABEL_WIDTH = 480
-        self.LABEL_HEIGHT = 170
+        self.LABEL_WIDTH = 560
+        self.LABEL_HEIGHT = 300
 
-        self.BUTTON_WIDTH = 105
-        self.BUTTON_HEIGHT = 50
+        self.BUTTON_WIDTH = 140
+        self.BUTTON_HEIGHT = 102
 
         self.WIDTH_SPACE = 20
         self.HEIGHT_SPACE = 20
@@ -125,7 +125,7 @@ class MyCalculatorWindow(QMainWindow):
                                self.LABEL_WIDTH, self.LABEL_HEIGHT)
         self.label.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
 
-        self.BIG_LABEL_FONT = 25
+        self.BIG_LABEL_FONT = 34
         self.SMALL_LABEL_FONT = 15
         self.TEXT_LIMIT = 17
         self.label_font = self.BIG_LABEL_FONT
@@ -159,81 +159,81 @@ class MyCalculatorWindow(QMainWindow):
                          2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
                          'CE', ''],
 
-                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                        [None, self.WIDTH_SPACE + self.BUTTON_WIDTH,
                          2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
                          '(', '('],
 
-                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                        [None, self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
                          2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
                          ')', ')'],
 
-                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                        [None, self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
                          2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.MENU_HEIGHT,
                          'DEL', 'Backspace'],
 
                         [None, self.WIDTH_SPACE,
-                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '7', '7'],
 
-                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '8', '8'],
 
-                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '9', '9'],
 
-                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                         3 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '/', '/'],
 
                         [None, self.WIDTH_SPACE,
-                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '4', '4'],
 
-                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '5', '5'],
 
-                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '6', '6'],
 
-                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                         4 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 2 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          'x', '*'],
 
                         [None, self.WIDTH_SPACE,
-                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '1', '1'],
 
-                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '2', '2'],
 
-                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
+                        [None, self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT +
                          3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '3', '3'],
 
-                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                         5 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 3 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '-', '-'],
 
                         [None, self.WIDTH_SPACE,
-                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '.', '.'],
 
-                        [None, 2 * self.WIDTH_SPACE + self.BUTTON_WIDTH,
-                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '0', '0'],
 
-                        [None, 3 * self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
-                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + 2 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '=', 'Return'],
 
-                        [None, 4 * self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
-                         6 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
+                        [None, self.WIDTH_SPACE + 3 * self.BUTTON_WIDTH,
+                         2 * self.HEIGHT_SPACE + self.LABEL_HEIGHT + 4 * self.BUTTON_HEIGHT + self.MENU_HEIGHT,
                          '+', '+']
 
                         ]
