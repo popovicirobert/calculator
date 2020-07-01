@@ -275,7 +275,7 @@ class MyCalculatorWindow(QMainWindow):
             style = self.DARK_MODE_BUTTON
 
         for index in range(len(self.buttons)):
-            if self.buttons[index][3] in ('+', '-', '/', 'x', 'DEL', 'CE', '.', '(', ')', '=')\
+            if self.buttons[index][3] in ('+', '-', '/', 'x', 'DEL')\
                     and self.light_mode == False:
                 self.buttons[index][0].setStyleSheet(self.DARK_MODE_ORANGE_BUTTON)
             else:
