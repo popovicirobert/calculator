@@ -13,7 +13,7 @@
           </ul>
       </li>
       <li>
-        Window resolution:<b>600 x 900 pixels</b>
+        Window resolution: <b>600 x 900 pixels</b>
       </li>
     </ul>
 </p>
