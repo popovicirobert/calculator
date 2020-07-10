@@ -5,8 +5,8 @@
 from PyQt5 import QtWidgets
 from PyQt5.QtWidgets import QApplication, QMainWindow, QShortcut
 from PyQt5 import QtCore
-from PyQt5.QtGui import QFont, QKeySequence
-import sys, clipboard
+from PyQt5.QtGui import QFont, QKeySequence, QFontMetrics
+import sys, decimal, clipboard
 from functools import partial
 from expression_evaluator import ExpressionEvaluator
 
@@ -125,11 +125,9 @@ class MyCalculatorWindow(QMainWindow):
                                self.LABEL_WIDTH, self.LABEL_HEIGHT)
         self.label.setAlignment(QtCore.Qt.AlignVCenter | QtCore.Qt.AlignRight)
 
-        self.BIG_LABEL_FONT = 34
-        self.SMALL_LABEL_FONT = 15
-        self.TEXT_LIMIT = 17
-        self.label_font = self.BIG_LABEL_FONT
-        self.label.setFont(QFont('Arial', self.label_font))
+        self.LABEL_FONT_SIZE = 35
+        self.label_font_size = self.LABEL_FONT_SIZE
+        self.label.setFont(QFont('Arial', self.label_font_size))
 
         self.typed_text = '0'
         self.label.setText(self.typed_text)
@@ -333,6 +331,26 @@ class MyCalculatorWindow(QMainWindow):
         self.light_mode_action.triggered.connect(self.light_mode_action_function)
         self.dark_mode_action.triggered.connect(self.dark_mode_action_function)
 
+    def adjust_label_font(self):
+        font = QFont('Arial', self.label_font_size)
+        fm = QFontMetrics(font)
+
+        label_width = self.label.frameGeometry().width()
+
+        while self.label_font_size < self.LABEL_FONT_SIZE and \
+                fm.width(self.typed_text) <= label_width:
+            self.label_font_size += 1
+            font = QFont('Arial', self.label_font_size)
+            fm = QFontMetrics(font)
+
+
+        while fm.width(self.typed_text) >= label_width:
+            self.label_font_size -= 1
+            font = QFont('Arial', self.label_font_size)
+            fm = QFontMetrics(font)
+
+        self.label.setFont(font)
+
 
     def add_character(self, character):
         if character.isdigit() == True:
@@ -362,11 +380,7 @@ class MyCalculatorWindow(QMainWindow):
             fraction = expr_eval.evaluate_expression()
 
             if fraction[0] != 'Error':
-                answer = fraction[0] / fraction[1]
-                if int(answer) == answer:
-                    answer = int(answer)
-                else:
-                    answer = round(answer, 12)
+                answer = decimal.Decimal(fraction[0]) / decimal.Decimal(fraction[1])
             else:
                 answer = 'Error'
 
@@ -374,12 +388,7 @@ class MyCalculatorWindow(QMainWindow):
         else:
             self.typed_text += character
 
-        if len(self.typed_text) > self.TEXT_LIMIT:
-            self.label_font = self.SMALL_LABEL_FONT
-        else:
-            self.label_font = self.BIG_LABEL_FONT
-
-        self.label.setFont(QFont('Arial', self.label_font))
+        self.adjust_label_font()
         self.label.setText(self.typed_text)
 
 
